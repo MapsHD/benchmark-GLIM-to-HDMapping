@@ -1,5 +1,10 @@
 # GLIM-converter
 
+## Example Dataset: 
+
+Download the dataset from [Bunker DVI Dataset](https://charleshamesse.github.io/bunker-dvi-dataset/)  
+
+
 ## Intended use 
 
 This small toolset allows to integrate SLAM solution provided by [GLIM](https://github.com/koide3/glim) with [HDMapping](https://github.com/MapsHD/HDMapping).
@@ -64,11 +69,6 @@ cd /test_ws/
 source ./install/setup.sh # adjust to used shell
 ros2 run glim-to-hdmapping listener <recorded_bag> <output_dir>
 ```
-
-## Example:
-
-Download the dataset from [NTU-VIRAL](https://ntu-aris.github.io/ntu_viral_dataset/)
-For this example, download eee_03.
 
 ## Convert(If it's a ROS1 .bag file):
 

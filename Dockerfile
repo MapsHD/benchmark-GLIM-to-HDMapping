@@ -82,7 +82,12 @@ RUN ldconfig
 RUN sed -i \
   -e 's|"imu_topic": "/os_cloud_node/imu",|"imu_topic": "/livox/imu",|' \
   -e 's|"points_topic": "/os_cloud_node/points",|"points_topic": "/livox/pointcloud" ,|' \
+  -e 's|"acc_scale": 1.0,|"acc_scale": 9.80665,|' \
   src/glim/config/config_ros.json
+
+RUN sed -i \
+  -e 's|0.006, -0.012, 0.008, 0.0, 0.0, 0.0, 1.0|-0.011, -0.02329, 0.04412, 0.0, 0.0, 0.0, 1.0|' \
+  src/glim/config/config_sensors.json
 
 RUN sed -i \
   -e 's|"config_odometry": "config_odometry_gpu.json"|"config_odometry": "config_odometry_cpu.json"|' \

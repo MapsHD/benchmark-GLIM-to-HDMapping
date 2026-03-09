@@ -10,7 +10,7 @@ Folder `kitti_seq00_ros2.zip`.
 ```shell
 unzip kitti_seq00_ros2.zip
 ```
-After extraction, the folder name will be `kitti_seq00_ros2` is an input for further calculations. (without the `.zip` extension).
+After extraction, the folder name will be `kitti_seq00_ros2` is an input for further calculations (without the `.zip` extension).
 
 It should be located in `~/hdmapping-benchmark/data`. 
 

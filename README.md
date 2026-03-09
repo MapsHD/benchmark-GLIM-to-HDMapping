@@ -21,17 +21,16 @@ mkdir -p ~/hdmapping-benchmark
 cd ~/hdmapping-benchmark
 git clone https://github.com/MapsHD/benchmark-GLIM-to-HDMapping.git --recursive
 cd benchmark-GLIM-to-HDMapping
-git checkout Bunker-DVI-Dataset-reg-1
+git checkout kitti
 docker build -t glim_humble .
 ```
 
 ## Step 3 (run docker, file 'kitti_seq00_ros2' should be in '~/hdmapping-benchmark/data')
-
 ```shell
 cd ~/hdmapping-benchmark/benchmark-GLIM-to-HDMapping
 chmod +x docker_session_run-ros2-glim.sh 
 cd ~/hdmapping-benchmark/data
-~/hdmapping-benchmark/benchmark-GLIM-to-HDMapping/docker_session_run-ros2-glim.sh reg-1-ros2 .
+~/hdmapping-benchmark/benchmark-GLIM-to-HDMapping/docker_session_run-ros2-glim.sh kitti_seq00_ros2/2011_10_03_drive_0027_extract_ros2 .
 ```
 
 ## Step 4 (Open and visualize data)

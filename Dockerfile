@@ -95,6 +95,9 @@ RUN sed -i \
   -e 's|"config_global_mapping": "config_global_mapping_gpu.json"|"config_global_mapping": "config_global_mapping_cpu.json"|' \
   src/glim/config/config.json
 
+RUN sed -i 's/"point_size": 10.0/"point_size": 0.5/g' src/glim/config/config_viewer.json && \
+    sed -i 's/"point_shape_circle": true/"point_shape_circle": false/g' src/glim/config/config_viewer.json
+
 RUN source /opt/ros/humble/setup.bash && \
     colcon build
 

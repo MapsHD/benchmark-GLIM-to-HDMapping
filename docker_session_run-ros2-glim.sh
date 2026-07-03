@@ -91,7 +91,7 @@ source /opt/ros/humble/setup.bash
 source /ros2_ws/install/setup.bash
 
 echo "[play] start"
-ros2 run glim_ros glim_rosbag '"$DATASET_CONTAINER_PATH"' --clock; tmux wait-for -S BAG_DONE;
+timeout 2m ros2 run glim_ros glim_rosbag '"$DATASET_CONTAINER_PATH"' --clock; tmux wait-for -S BAG_DONE;
 echo "[play] done"
 '\'' C-m
 

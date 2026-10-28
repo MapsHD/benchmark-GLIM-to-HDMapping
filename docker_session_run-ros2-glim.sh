@@ -9,7 +9,7 @@ BAG_OUTPUT_CONTAINER='/ros2_ws/recordings'
 RECORDED_BAG_NAME="recorded-glim"
 HDMAPPING_OUT_NAME="output_hdmapping"
 
-TOPIC='/livox/pointcloud'
+TOPIC='/lidar/pointcloud'
 
 usage() {
   echo "Usage:"
@@ -91,7 +91,7 @@ source /opt/ros/humble/setup.bash
 source /ros2_ws/install/setup.bash
 
 echo "[play] start"
-timeout 2m ros2 run glim_ros glim_rosbag '"$DATASET_CONTAINER_PATH"' --clock; tmux wait-for -S BAG_DONE;
+timeout 30m ros2 run glim_ros glim_rosbag '"$DATASET_CONTAINER_PATH"' --clock; tmux wait-for -S BAG_DONE;
 echo "[play] done"
 '\'' C-m
 

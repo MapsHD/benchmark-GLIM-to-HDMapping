@@ -79,15 +79,26 @@ COPY ./src ./src
 
 RUN ldconfig
 
-RUN sed -i \
-  -e 's|"imu_topic": "/os_cloud_node/imu",|"imu_topic": "/livox/imu",|' \
-  -e 's|"points_topic": "/os_cloud_node/points",|"points_topic": "/livox/pointcloud" ,|' \
-  -e 's|"acc_scale": 1.0,|"acc_scale": 9.80665,|' \
-  src/glim/config/config_ros.json
+# Canonical bag (/lidar/pointcloud: Hesai QT64 with ring, float32 `time` and
+# uint32 `t`; /lidar/imu in the lidar frame, m/s^2). GLIM's own default config
+# (Ouster OS0, spinning) with only the sensor description changed: topics,
+# identity T_lidar_imu, 60 m far threshold (near is already 0.5 m). acc_scale stays
+# 1.0 (m/s^2). Per-point times are autoconfigured from `t`/`time`. Each edit
+# fails the build if the upstream value changes.
+RUN f=src/glim/config/config_ros.json && \
+    [ "$(grep -c '"imu_topic": "/os_cloud_node/imu",' $f)" = 1 ] && \
+    [ "$(grep -c '"points_topic": "/os_cloud_node/points",' $f)" = 1 ] && \
+    sed -i -e 's|"imu_topic": "/os_cloud_node/imu",|"imu_topic": "/lidar/imu",|' \
+           -e 's|"points_topic": "/os_cloud_node/points",|"points_topic": "/lidar/pointcloud",|' $f
 
-RUN sed -i \
-  -e 's|0.006, -0.012, 0.008, 0.0, 0.0, 0.0, 1.0|-0.011, -0.02329, 0.04412, 0.0, 0.0, 0.0, 1.0|' \
-  src/glim/config/config_sensors.json
+RUN python3 -c "import re; p='src/glim/config/config_sensors.json'; s=open(p).read(); \
+old=re.compile(r'\"T_lidar_imu\": \\[\\s*0\\.006,\\s*-0\\.012,\\s*0\\.008,\\s*0\\.0,\\s*0\\.0,\\s*0\\.0,\\s*1\\.0\\s*\\]'); \
+assert len(old.findall(s)) == 1, 'T_lidar_imu changed upstream'; \
+open(p, 'w').write(old.sub('\"T_lidar_imu\": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0]', s))"
+
+RUN f=src/glim/config/config_preprocess.json && \
+    [ "$(grep -c '"distance_far_thresh": 100.0,' $f)" = 1 ] && \
+    sed -i 's|"distance_far_thresh": 100.0,|"distance_far_thresh": 60.0,|' $f
 
 RUN sed -i \
   -e 's|"config_odometry": "config_odometry_gpu.json"|"config_odometry": "config_odometry_cpu.json"|' \
